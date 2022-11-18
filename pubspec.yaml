@@ -53,6 +53,17 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/alface.png
+    - assets/batata.png
+    - assets/tomate.png
+    - assets/rucula.png
+    - assets/radite.png
+    - assets/beterraba.png
+    - assets/cenoura.png
+    - assets/plantacao.jpg
+    - assets/on.png
+    - assets/off.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
