@@ -1,14 +1,16 @@
+import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const appTitle = 'Projeto Irrigação';
+  static const appTitle = 'Efficient Water';
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.green, title: Text(widget.title)),
+      appBar: AppBar(backgroundColor: Colors.blue, title: Text(widget.title)),
       body: const Center(
         child: Text('My Page!'),
       ),
@@ -265,28 +267,29 @@ class Cultura extends StatefulWidget {
 }
 
 class _CulturaState extends State<Cultura> {
-  final url = "https://jsonplaceholder.typicode.com/posts";
+  final url = "https://efficientwater.000webhostapp.com/main.json";
   bool valor = true;
-  var posts = [];
+  var posts = 0;
   Color corEstado = Colors.red;
   String estado = "Desligado";
   IconData icone = Icons.block;
 
   void fetchPosts() async {
     try {
-      final response = await get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url));
       final data = jsonDecode(response.body) as List;
-
+      posts = data[0]['title'];
       setState(() {
-        posts = data;
+        posts;
       });
-    } catch (err) {}
+    } catch (err) {
+      print(err);
+    }
   }
 
   void postData() async {
     try {
-      final response = await post(Uri.parse(url),
-          body: {"title": "Estado", "body": "true", "userId": "1"});
+      final response = await http.put(Uri.parse(url), body: {"body": "Ligado"});
       print(response.body);
       setState(() {
         corEstado = Colors.green;
@@ -298,8 +301,8 @@ class _CulturaState extends State<Cultura> {
 
   void postData2() async {
     try {
-      final response = await post(Uri.parse(url),
-          body: {"title": "Estado", "body": "false", "userId": "1"});
+      final response =
+          await http.put(Uri.parse(url), body: {"body": "Desligado"});
       print(response.body);
       setState(() {
         corEstado = Colors.red;
@@ -312,7 +315,10 @@ class _CulturaState extends State<Cultura> {
   @override
   void initState() {
     super.initState();
-    fetchPosts();
+    Timer myTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+      fetchPosts();
+    });
+    myTimer;
   }
 
   @override
@@ -386,7 +392,9 @@ class _CulturaState extends State<Cultura> {
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.blue.shade900,
                     textStyle: const TextStyle(fontSize: 20)),
-                onPressed: () {},
+                onPressed: () {
+                  fetchPosts();
+                },
                 child: Row(
                   children: [
                     Icon(
@@ -398,7 +406,7 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Umidade Atual: ${widget.umidadeAtual}%',
+                      'Umidade Atual: ${posts}%',
                     ),
                   ],
                 )),
