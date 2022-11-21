@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,9 +32,53 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blue, title: Text(widget.title)),
-      body: const Center(
-        child: Text('My Page!'),
+      appBar: AppBar(backgroundColor: Colors.green, title: Text(widget.title)),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Topico 1',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum purus nunc, in aliquam dolor hendrerit fermentum. Aliquam facilisis ac lectus sed porta. Phasellus sed tellus quis tortor vestibulum sollicitudin et nec felis. Maecenas est ipsum, volutpat sit amet tempus id, porta molestie odio. Morbi molestie lacinia dolor, at dignissim purus consequat vitae. Nam tincidunt elit lobortis, fermentum diam vel, fringilla lectus. Nullam malesuada commodo dignissim. Proin blandit lacus sem, at pulvinar elit posuere at. Donec ac suscipit tellus. Nunc molestie magna metus, non sodales velit porttitor sed. Maecenas ac metus quis urna viverra maximus. Curabitur gravida purus ullamcorper elit pellentesque porta. Nulla eget vehicula lectus.'),
+                const Divider(
+                  height: 20,
+                  thickness: 5,
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
+                ),
+                Text(
+                  'Topico 2',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum purus nunc, in aliquam dolor hendrerit fermentum. Aliquam facilisis ac lectus sed porta. Phasellus sed tellus quis tortor vestibulum sollicitudin et nec felis. Maecenas est ipsum, volutpat sit amet tempus id, porta molestie odio. Morbi molestie lacinia dolor, at dignissim purus consequat vitae. Nam tincidunt elit lobortis, fermentum diam vel, fringilla lectus. Nullam malesuada commodo dignissim. Proin blandit lacus sem, at pulvinar elit posuere at. Donec ac suscipit tellus. Nunc molestie magna metus, non sodales velit porttitor sed. Maecenas ac metus quis urna viverra maximus. Curabitur gravida purus ullamcorper elit pellentesque porta. Nulla eget vehicula lectus.'),
+                const Divider(
+                  height: 20,
+                  thickness: 5,
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
+                ),
+                Text(
+                  'Topico 3',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                Image.asset(
+                  'assets/plantacao.jpg',
+                  height: 250,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -80,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Alface', '0', '0', 0, 0, Colors.green)),
+                            'Alface', '96', '0', "5 e 6", 80, Colors.green)),
                   );
                 },
               ),
@@ -107,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Batata', '0', '0', 0, 0, Colors.yellow)),
+                            'Batata', '0', '0', "0", 0, Colors.yellow)),
                   );
                 },
               ),
@@ -134,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Tomate', '0', '0', 0, 0, Colors.red)),
+                            'Tomate', '0', '0', "0", 0, Colors.red)),
                   );
                 },
               ),
@@ -161,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Rúcula', '0', '0', 0, 0, Colors.green)),
+                            'Rúcula', '0', '0', "0", 0, Colors.green)),
                   );
                 },
               ),
@@ -188,7 +230,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Radite', '0', '0', 0, 0, Colors.green)),
+                            'Radite', '0', '0', "0", 0, Colors.green)),
                   );
                 },
               ),
@@ -215,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Beterraba', '0', '0', 0, 0, Colors.purple)),
+                            'Beterraba', '0', '0', "0", 0, Colors.purple)),
                   );
                 },
               ),
@@ -242,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Cultura(
-                            'Cenoura', '0', '0', 0, 0, Colors.orange)),
+                            'Cenoura', '0', '0', "0", 0, Colors.orange)),
                   );
                 },
               ),
@@ -255,11 +297,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Cultura extends StatefulWidget {
-  final String titulo, dias, temperaturaIdeal;
-  final int umidadeAtual, umidadeNecessaria;
+  final String titulo, dias, temperaturaIdeal, phSolo, umidadeAtual = "0% Seco";
+  final int umidadeNecessaria;
   final Color cor;
-  const Cultura(this.titulo, this.dias, this.temperaturaIdeal,
-      this.umidadeAtual, this.umidadeNecessaria, this.cor,
+  const Cultura(this.titulo, this.dias, this.temperaturaIdeal, this.phSolo,
+      this.umidadeNecessaria, this.cor,
       {super.key});
 
   @override
@@ -269,7 +311,7 @@ class Cultura extends StatefulWidget {
 class _CulturaState extends State<Cultura> {
   final url = "https://efficientwater.000webhostapp.com/main.json";
   bool valor = true;
-  var posts = 0;
+  var posts = "";
   Color corEstado = Colors.red;
   String estado = "Desligado";
   IconData icone = Icons.block;
@@ -374,6 +416,26 @@ class _CulturaState extends State<Cultura> {
                 )),
             TextButton(
                 style: TextButton.styleFrom(
+                    foregroundColor: Colors.brown,
+                    textStyle: const TextStyle(fontSize: 20)),
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.grass_outlined,
+                      color: Colors.brown,
+                      size: 40,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'PH do solo: Entre ${widget.phSolo}',
+                    ),
+                  ],
+                )),
+            TextButton(
+                style: TextButton.styleFrom(
                     foregroundColor: Colors.orange,
                     textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
@@ -410,7 +472,7 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Umidade Atual: ${posts}%',
+                      'Umidade Atual: ${posts}',
                     ),
                   ],
                 )),
