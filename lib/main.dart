@@ -273,6 +273,7 @@ class _CulturaState extends State<Cultura> {
   Color corEstado = Colors.red;
   String estado = "Desligado";
   IconData icone = Icons.block;
+  AssetImage iconeEstado = AssetImage("assets/off.png");
 
   void fetchPosts() async {
     try {
@@ -287,27 +288,30 @@ class _CulturaState extends State<Cultura> {
     }
   }
 
-  void postData() async {
+  void postDataLigado() async {
     try {
-      final response = await http.put(Uri.parse(url), body: {"body": "Ligado"});
+      final response =
+          await http.post(Uri.parse(url), body: {"body": "Ligado"});
       print(response.body);
       setState(() {
         corEstado = Colors.green;
         estado = "Ligado";
         icone = Icons.done_outline_rounded;
+        iconeEstado = AssetImage("assets/on.png");
       });
     } catch (err) {}
   }
 
-  void postData2() async {
+  void postDataDesligado() async {
     try {
       final response =
-          await http.put(Uri.parse(url), body: {"body": "Desligado"});
+          await http.post(Uri.parse(url), body: {"body": "Desligado"});
       print(response.body);
       setState(() {
         corEstado = Colors.red;
         estado = "Desligado";
         icone = Icons.block;
+        iconeEstado = AssetImage("assets/off.png");
       });
     } catch (err) {}
   }
@@ -436,26 +440,18 @@ class _CulturaState extends State<Cultura> {
               children: [
                 Column(
                   children: [
-                    Text("Ligar"),
+                    Text(estado),
                     IconButton(
                       splashRadius: 40,
-                      splashColor: Colors.green,
                       iconSize: 80,
-                      onPressed: postData,
-                      icon: Ink.image(image: const AssetImage("assets/on.png")),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text("Desligar"),
-                    IconButton(
-                      splashRadius: 40,
-                      splashColor: Colors.red,
-                      iconSize: 80,
-                      onPressed: postData2,
-                      icon:
-                          Ink.image(image: const AssetImage("assets/off.png")),
+                      onPressed: () {
+                        if (estado == "Desligado") {
+                          postDataLigado();
+                        } else if (estado == "Ligado") {
+                          postDataDesligado();
+                        }
+                      },
+                      icon: Ink.image(image: iconeEstado),
                     ),
                   ],
                 ),
