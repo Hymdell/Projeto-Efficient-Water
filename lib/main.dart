@@ -310,8 +310,6 @@ class Cultura extends StatefulWidget {
 }
 
 class _CulturaState extends State<Cultura> {
-  final url = "https://efficientwater.000webhostapp.com/main.json";
-  bool valor = true;
   var posts = "";
   Color corEstado = Colors.red;
   String estado = "Desligado";
