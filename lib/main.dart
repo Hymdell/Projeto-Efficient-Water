@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -333,9 +332,6 @@ class _CulturaState extends State<Cultura> {
 
   void postDataLigado() async {
     try {
-      final response =
-          await http.post(Uri.parse(url), body: {"body": "Ligado"});
-      print(response.body);
       setState(() {
         corEstado = Colors.green;
         estado = "Ligado";
@@ -347,9 +343,7 @@ class _CulturaState extends State<Cultura> {
 
   void postDataDesligado() async {
     try {
-      final response =
-          await http.post(Uri.parse(url), body: {"body": "Desligado"});
-      print(response.body);
+      String site = "https://www.freemysqlhosting.net/account/";
       setState(() {
         corEstado = Colors.red;
         estado = "Desligado";
