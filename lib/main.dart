@@ -42,11 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Topico 1',
+                  'Dados sobre a água na Agricultura',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum purus nunc, in aliquam dolor hendrerit fermentum. Aliquam facilisis ac lectus sed porta. Phasellus sed tellus quis tortor vestibulum sollicitudin et nec felis. Maecenas est ipsum, volutpat sit amet tempus id, porta molestie odio. Morbi molestie lacinia dolor, at dignissim purus consequat vitae. Nam tincidunt elit lobortis, fermentum diam vel, fringilla lectus. Nullam malesuada commodo dignissim. Proin blandit lacus sem, at pulvinar elit posuere at. Donec ac suscipit tellus. Nunc molestie magna metus, non sodales velit porttitor sed. Maecenas ac metus quis urna viverra maximus. Curabitur gravida purus ullamcorper elit pellentesque porta. Nulla eget vehicula lectus.'),
+                    'A agricultura é o setor responsável por consumir a maior quantidade de água no mundo, utilizando uma média de 70% de toda a água consumido.\nOutro dado importantíssimo, a agricultura é tam´bem a que mais desperdiça água pois perde quase metade de toda a água durante o processo de produção.'),
                 const Divider(
                   height: 20,
                   thickness: 5,
@@ -55,24 +55,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.black,
                 ),
                 Text(
-                  'Topico 2',
+                  'Curiosidades sobre a água',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum purus nunc, in aliquam dolor hendrerit fermentum. Aliquam facilisis ac lectus sed porta. Phasellus sed tellus quis tortor vestibulum sollicitudin et nec felis. Maecenas est ipsum, volutpat sit amet tempus id, porta molestie odio. Morbi molestie lacinia dolor, at dignissim purus consequat vitae. Nam tincidunt elit lobortis, fermentum diam vel, fringilla lectus. Nullam malesuada commodo dignissim. Proin blandit lacus sem, at pulvinar elit posuere at. Donec ac suscipit tellus. Nunc molestie magna metus, non sodales velit porttitor sed. Maecenas ac metus quis urna viverra maximus. Curabitur gravida purus ullamcorper elit pellentesque porta. Nulla eget vehicula lectus.'),
+                    '1 - De acordo com a ONU, existem 783 milhões de pessoas no mundo que vivem sem água potável. Em 2025 esse número pode chegar a 1,8 bilhões.\n2 - Apenas 3% da água no mundo é doce. Deste total, 70% está em forma de gelo ou no solo\n3 - 12% da água doce do mundo está no Brasil. O páis é privilegiado por seus aquíferos, que armazenam a água no solo.'),
                 const Divider(
                   height: 20,
                   thickness: 5,
                   indent: 0,
                   endIndent: 0,
                   color: Colors.black,
-                ),
-                Text(
-                  'Topico 3',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 Image.asset(
-                  'assets/plantacao.jpg',
+                  'assets/alfaces.jpg',
                   height: 250,
                 ),
               ],
@@ -370,7 +366,6 @@ class _CulturaState extends State<Cultura> {
 
   void postDataDesligado() async {
     try {
-      //Site = https://www.freemysqlhosting.net/account/
       var settings = new ConnectionSettings(
           host: 'sql10.freemysqlhosting.net',
           port: 3306,
