@@ -313,6 +313,7 @@ class _CulturaState extends State<Cultura> {
   var posts = "";
   Color corEstado = Colors.red;
   String estado = "Desligado";
+  bool erro = false;
   IconData icone = Icons.block;
   AssetImage iconeEstado = AssetImage("assets/off.png");
 
@@ -333,9 +334,11 @@ class _CulturaState extends State<Cultura> {
       ;
       setState(() {
         posts;
+        erro = false;
       });
       con.close();
     } catch (err) {
+      erro = true;
       print(err);
     }
   }
@@ -351,14 +354,19 @@ class _CulturaState extends State<Cultura> {
       var con = await MySqlConnection.connect(settings);
       var result = await con
           .query('update irrigacao set estado=? where id=?', ['Ligado', 1]);
+      print(result);
       setState(() {
         corEstado = Colors.green;
         estado = "Ligado";
         icone = Icons.done_outline_rounded;
         iconeEstado = AssetImage("assets/on.png");
+        erro = false;
       });
       con.close();
-    } catch (err) {}
+    } catch (err) {
+      erro = true;
+      print(err);
+    }
   }
 
   void postDataDesligado() async {
@@ -373,14 +381,19 @@ class _CulturaState extends State<Cultura> {
       var con = await MySqlConnection.connect(settings);
       var result = await con
           .query('update irrigacao set estado=? where id=?', ['Desligado', 1]);
+      print(result);
       setState(() {
         corEstado = Colors.red;
         estado = "Desligado";
         icone = Icons.block;
         iconeEstado = AssetImage("assets/off.png");
+        erro = false;
       });
       con.close();
-    } catch (err) {}
+    } catch (err) {
+      erro = true;
+      print(err);
+    }
   }
 
   @override
@@ -536,6 +549,16 @@ class _CulturaState extends State<Cultura> {
                           postDataLigado();
                         } else if (estado == "Ligado") {
                           postDataDesligado();
+                        }
+                        if (erro != false) {
+                          final snackBar = SnackBar(
+                            content: const Text(
+                              'ERRO DE CONEXÃO COM BANCO DE DADOS',
+                              textAlign: TextAlign.center,
+                            ),
+                            backgroundColor: Colors.red,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       },
                       icon: Ink.image(image: iconeEstado),
