@@ -320,12 +320,23 @@ class _CulturaState extends State<Cultura> {
 
   void fetchPosts() async {
     try {
-      final response = await http.get(Uri.parse(url));
-      final data = jsonDecode(response.body) as List;
-      posts = data[0]['title'];
+      var settings = new ConnectionSettings(
+          host: 'sql10.freemysqlhosting.net',
+          port: 3306,
+          user: 'sql10579653',
+          password: 'f52ieXUCAr',
+          db: 'sql10579653');
+      var con = await MySqlConnection.connect(settings);
+      var results =
+          await con.query('select umidade from irrigacao where id = ?', [1]);
+      for (var row in results) {
+        posts = row[0];
+      }
+      ;
       setState(() {
         posts;
       });
+      con.close();
     } catch (err) {
       print(err);
     }
@@ -333,24 +344,44 @@ class _CulturaState extends State<Cultura> {
 
   void postDataLigado() async {
     try {
+      var settings = new ConnectionSettings(
+          host: 'sql10.freemysqlhosting.net',
+          port: 3306,
+          user: 'sql10579653',
+          password: 'f52ieXUCAr',
+          db: 'sql10579653');
+      var con = await MySqlConnection.connect(settings);
+      var result = await con
+          .query('update irrigacao set estado=? where id=?', ['Ligado', 1]);
       setState(() {
         corEstado = Colors.green;
         estado = "Ligado";
         icone = Icons.done_outline_rounded;
         iconeEstado = AssetImage("assets/on.png");
       });
+      con.close();
     } catch (err) {}
   }
 
   void postDataDesligado() async {
     try {
-      String site = "https://www.freemysqlhosting.net/account/";
+      //Site = https://www.freemysqlhosting.net/account/
+      var settings = new ConnectionSettings(
+          host: 'sql10.freemysqlhosting.net',
+          port: 3306,
+          user: 'sql10579653',
+          password: 'f52ieXUCAr',
+          db: 'sql10579653');
+      var con = await MySqlConnection.connect(settings);
+      var result = await con
+          .query('update irrigacao set estado=? where id=?', ['Desligado', 1]);
       setState(() {
         corEstado = Colors.red;
         estado = "Desligado";
         icone = Icons.block;
         iconeEstado = AssetImage("assets/off.png");
       });
+      con.close();
     } catch (err) {}
   }
 
