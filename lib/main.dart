@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 
@@ -393,16 +392,25 @@ class _CulturaState extends State<Cultura> {
   @override
   void initState() {
     super.initState();
-    Timer myTimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      fetchPosts();
-    });
-    myTimer;
+    fetchPosts();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: widget.cor, title: Text(widget.titulo)),
+      appBar: AppBar(
+        backgroundColor: widget.cor,
+        title: Text(widget.titulo),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: IconButton(
+                icon: const Icon(Icons.refresh),
+                tooltip: 'Atualizar Úmidade',
+                onPressed: fetchPosts),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           children: [
