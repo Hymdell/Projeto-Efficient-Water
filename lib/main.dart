@@ -1,17 +1,19 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: const FirebaseOptions(apiKey: 'AIzaSyAnQnS8Q5DNnTzcieNWQWqVY-WhgHAzRaQ',
-      authDomain: 'projetoirrigacao-33d69.firebaseapp.com',
-      databaseURL: 'https://projetoirrigacao-33d69-default-rtdb.firebaseio.com',
-      projectId: 'projetoirrigacao-33d69',
-      storageBucket: 'projetoirrigacao-33d69.appspot.com',
-      messagingSenderId: '883856464313',
-      appId: '1:883856464313:web:b947535e1b55a73dd17e68'));
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyAnQnS8Q5DNnTzcieNWQWqVY-WhgHAzRaQ',
+          authDomain: 'projetoirrigacao-33d69.firebaseapp.com',
+          databaseURL:
+              'https://projetoirrigacao-33d69-default-rtdb.firebaseio.com',
+          projectId: 'projetoirrigacao-33d69',
+          storageBucket: 'projetoirrigacao-33d69.appspot.com',
+          messagingSenderId: '883856464313',
+          appId: '1:883856464313:web:b947535e1b55a73dd17e68'));
   runApp(const MyApp());
 }
 
@@ -413,14 +415,13 @@ class _CulturaState extends State<Cultura> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'Tempo de crescimento: ${widget.dias} dias'),
+                    Text('Tempo de crescimento: ${widget.dias} dias'),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.blue,
-                  textStyle: const TextStyle(fontSize: 20)),
+                    foregroundColor: Colors.blue,
+                    textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -432,14 +433,13 @@ class _CulturaState extends State<Cultura> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'Umidade necessária: ${widget.umidadeNecessaria}% '),
+                    Text('Umidade necessária: ${widget.umidadeNecessaria}% '),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.brown,
-                    textStyle:const TextStyle(fontSize: 20)),
+                    textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -451,8 +451,7 @@ class _CulturaState extends State<Cultura> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'PH do solo: Entre ${widget.phSolo}'),
+                    Text('PH do solo: Entre ${widget.phSolo}'),
                   ],
                 )),
             TextButton(
@@ -470,14 +469,13 @@ class _CulturaState extends State<Cultura> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'Temperatura Ideal: ${widget.temperaturaIdeal}°C'),
+                    Text('Temperatura Ideal: ${widget.temperaturaIdeal}°C'),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.blue.shade900,
-                  textStyle: const TextStyle(fontSize: 20)),
+                    foregroundColor: Colors.blue.shade900,
+                    textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {
                   fetchPosts();
                 },
@@ -493,8 +491,7 @@ class _CulturaState extends State<Cultura> {
                     ),
                     Text(
                       'Umidade Atual: ${posts}',
-                      style:
-                          TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 15),
                     ),
                   ],
                 )),
@@ -513,8 +510,7 @@ class _CulturaState extends State<Cultura> {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      'Estado Atual: $estado'),
+                    Text('Estado Atual: $estado'),
                   ],
                 )),
             Row(
