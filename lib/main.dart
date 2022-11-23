@@ -1,7 +1,13 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:mysql1/mysql1.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -304,33 +310,21 @@ class Cultura extends StatefulWidget {
 }
 
 class _CulturaState extends State<Cultura> {
-  var posts = "";
+  Object? posts = "";
   Color corEstado = Colors.red;
   String estado = "Desligado";
   bool erro = false;
   IconData icone = Icons.block;
   AssetImage iconeEstado = AssetImage("assets/off.png");
+  Query dbRef = FirebaseDatabase.instance.ref().child("Estado");
 
-  void fetchPosts() async {
+  Future<void> fetchPosts() async {
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child('Umidade').get();
     try {
-      var settings = new ConnectionSettings(
-          host: 'sql10.freemysqlhosting.net',
-          port: 3306,
-          user: 'sql10579653',
-          password: 'f52ieXUCAr',
-          db: 'sql10579653');
-      var con = await MySqlConnection.connect(settings);
-      var results =
-          await con.query('select umidade from irrigacao where id = ?', [1]);
-      for (var row in results) {
-        posts = row[0];
-      }
-      ;
       setState(() {
-        posts;
-        erro = false;
+        posts = snapshot.value;
       });
-      con.close();
     } catch (err) {
       erro = true;
       print(err);
@@ -339,16 +333,9 @@ class _CulturaState extends State<Cultura> {
 
   void postDataLigado() async {
     try {
-      var settings = new ConnectionSettings(
-          host: 'sql10.freemysqlhosting.net',
-          port: 3306,
-          user: 'sql10579653',
-          password: 'f52ieXUCAr',
-          db: 'sql10579653');
-      var con = await MySqlConnection.connect(settings);
-      var result = await con
-          .query('update irrigacao set estado=? where id=?', ['Ligado', 1]);
-      print(result);
+      late DatabaseReference dbRef =
+          FirebaseDatabase.instance.ref().child('Estado');
+      dbRef.set(1);
       setState(() {
         corEstado = Colors.green;
         estado = "Ligado";
@@ -356,7 +343,6 @@ class _CulturaState extends State<Cultura> {
         iconeEstado = AssetImage("assets/on.png");
         erro = false;
       });
-      con.close();
     } catch (err) {
       erro = true;
       print(err);
@@ -365,16 +351,9 @@ class _CulturaState extends State<Cultura> {
 
   void postDataDesligado() async {
     try {
-      var settings = new ConnectionSettings(
-          host: 'sql10.freemysqlhosting.net',
-          port: 3306,
-          user: 'sql10579653',
-          password: 'f52ieXUCAr',
-          db: 'sql10579653');
-      var con = await MySqlConnection.connect(settings);
-      var result = await con
-          .query('update irrigacao set estado=? where id=?', ['Desligado', 1]);
-      print(result);
+      late DatabaseReference dbRef =
+          FirebaseDatabase.instance.ref().child('Estado');
+      dbRef.set(0);
       setState(() {
         corEstado = Colors.red;
         estado = "Desligado";
@@ -382,7 +361,6 @@ class _CulturaState extends State<Cultura> {
         iconeEstado = AssetImage("assets/off.png");
         erro = false;
       });
-      con.close();
     } catch (err) {
       erro = true;
       print(err);
@@ -430,14 +408,13 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Tempo de crescimento: ${widget.dias} dias',
-                    ),
+                      'Tempo de crescimento: ${widget.dias} dias'),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue,
-                    textStyle: const TextStyle(fontSize: 20)),
+                  foregroundColor: Colors.blue,
+                  textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -450,14 +427,13 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Umidade necessária: ${widget.umidadeNecessaria}% ',
-                    ),
+                      'Umidade necessária: ${widget.umidadeNecessaria}% '),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.brown,
-                    textStyle: const TextStyle(fontSize: 20)),
+                    textStyle:const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -470,14 +446,14 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'PH do solo: Entre ${widget.phSolo}',
-                    ),
+                      'PH do solo: Entre ${widget.phSolo}'),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                    foregroundColor: Colors.orange,
-                    textStyle: const TextStyle(fontSize: 20)),
+                    textStyle:
+                        foregroundColor: Colors.orange,
+                        const TextStyle(fontSize: 20,)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -490,14 +466,13 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Temperatura Ideal: ${widget.temperaturaIdeal}°C',
-                    ),
+                      'Temperatura Ideal: ${widget.temperaturaIdeal}°C'),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue.shade900,
-                    textStyle: const TextStyle(fontSize: 20)),
+                  foregroundColor: Colors.blueshade900,
+                  textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {
                   fetchPosts();
                 },
@@ -513,13 +488,15 @@ class _CulturaState extends State<Cultura> {
                     ),
                     Text(
                       'Umidade Atual: ${posts}',
+                      style:
+                          TextStyle(fontSize: 15),
                     ),
                   ],
                 )),
             TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: corEstado,
-                    textStyle: const TextStyle(fontSize: 20)),
+                    textStyle: const TextStyle(fontSize: 20, color: corEstado)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -532,8 +509,7 @@ class _CulturaState extends State<Cultura> {
                       width: 5,
                     ),
                     Text(
-                      'Estado Atual: $estado',
-                    ),
+                      'Estado Atual: $estado'),
                   ],
                 )),
             Row(
