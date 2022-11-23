@@ -5,7 +5,13 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: const FirebaseOptions(apiKey: 'AIzaSyAnQnS8Q5DNnTzcieNWQWqVY-WhgHAzRaQ',
+      authDomain: 'projetoirrigacao-33d69.firebaseapp.com',
+      databaseURL: 'https://projetoirrigacao-33d69-default-rtdb.firebaseio.com',
+      projectId: 'projetoirrigacao-33d69',
+      storageBucket: 'projetoirrigacao-33d69.appspot.com',
+      messagingSenderId: '883856464313',
+      appId: '1:883856464313:web:b947535e1b55a73dd17e68'));
   runApp(const MyApp());
 }
 
@@ -451,9 +457,8 @@ class _CulturaState extends State<Cultura> {
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                    textStyle:
-                        foregroundColor: Colors.orange,
-                        const TextStyle(fontSize: 20,)),
+                    foregroundColor: Colors.orange,
+                    textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
@@ -471,7 +476,7 @@ class _CulturaState extends State<Cultura> {
                 )),
             TextButton(
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.blueshade900,
+                  foregroundColor: Colors.blue.shade900,
                   textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {
                   fetchPosts();
@@ -496,7 +501,7 @@ class _CulturaState extends State<Cultura> {
             TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: corEstado,
-                    textStyle: const TextStyle(fontSize: 20, color: corEstado)),
+                    textStyle: const TextStyle(fontSize: 20)),
                 onPressed: () {},
                 child: Row(
                   children: [
